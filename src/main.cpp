@@ -1,62 +1,110 @@
 #include <Arduino.h>
+#include <LiquidCrystal_I2C.h>
+byte red = 8, green = 9, blue = 10;
 
-const int LEDS[3] = {7, 6, 5};
+byte PULS1 = 7;
+byte PULS2 = 6;
+int num;
 
-const int PULS_4 = 11;
-const int PULS_3 = 10;
-const int PULS_2 = 9;
-const int PULS_1 = 8;
-
+byte POTEN = A1;
+int val = 0;
 void setup()
 {
-  Serial.begin(9600);
-  for (int i = 0; i < 3; i++)
-  {
-    pinMode(LEDS[i], OUTPUT);
-  }
-
-  pinMode(PULS_1, INPUT);
-  pinMode(PULS_2, INPUT);
-  pinMode(PULS_3, INPUT_PULLUP);
-  pinMode(PULS_4, INPUT_PULLUP);
+    pinMode(red, OUTPUT);
+    pinMode(green, OUTPUT);
+    pinMode(blue, OUTPUT);
 }
 
 void loop()
 {
-  for (int i = 0; digitalRead(PULS_1) && i < 3; i++)
-  {
-    digitalWrite(LEDS[i], HIGH);
-  }
+    int cont = 0;
+    int valorPuls1 = digitalRead(PULS1);
+    int valorPuls2 = digitalRead(PULS2);
 
-  for (int i = 0; digitalRead(PULS_2) && i < 3; i++)
-  {
-    digitalWrite(LEDS[i], LOW);
-  }
-
-  if (!digitalRead(PULS_3))
-  {
-    for (int i = 3; i >= 0; i--)
+    if (valorPuls1)
     {
-      digitalWrite(LEDS[i], HIGH);
-      delay(250);
-    }
-    for (int i = 0; i < 3; i++)
-    {
-      digitalWrite(LEDS[i], LOW);
-      delay(250);
-    }
-  }
+        num = random(0, 6);
+        for (size_t i = 0; i < num; i++)
+        {
+            digitalWrite(red, 1);
+            digitalWrite(green, 0);
+            digitalWrite(blue, 0);
 
-  if (!digitalRead(PULS_4))
-  {
-    digitalWrite(LEDS[2], HIGH);
-    delay(2000);
-    digitalWrite(LEDS[2], LOW);
-    digitalWrite(LEDS[1], HIGH);
-    delay(1000);
-    digitalWrite(LEDS[1], LOW);
-    digitalWrite(LEDS[0], HIGH);
-    delay(2000);
-    digitalWrite(LEDS[0], LOW);
-  }
+            delay(500);
+            
+            digitalWrite(red, 0);
+            digitalWrite(green, 0);
+            digitalWrite(blue, 0);
+
+            delay(500);
+
+            digitalWrite(red, 0);
+            digitalWrite(green, 1);
+            digitalWrite(blue, 0);
+
+            delay(500);
+
+            digitalWrite(red, 0);
+            digitalWrite(green, 0);
+            digitalWrite(blue, 0);
+
+            delay(500);
+
+            digitalWrite(red, 0);
+            digitalWrite(green, 1);
+            digitalWrite(blue, 1);
+
+            delay(500);
+
+            digitalWrite(red, 0);
+            digitalWrite(green, 0);
+            digitalWrite(blue, 0);
+
+            delay(500);
+
+        }
+    }
+    else if (valorPuls2)
+    {
+        num = random(0, 6);
+        for (size_t i = 0; i < num; i++)
+        {
+            digitalWrite(red, 1);
+            digitalWrite(green, 1);
+            digitalWrite(blue, 0);
+
+            delay(500);
+            
+            digitalWrite(red, 0);
+            digitalWrite(green, 0);
+            digitalWrite(blue, 0);
+
+            delay(500);
+
+            digitalWrite(red, 1);
+            digitalWrite(green, 0);
+            digitalWrite(blue, 1);
+
+            delay(500);
+
+            digitalWrite(red, 0);
+            digitalWrite(green, 0);
+            digitalWrite(blue, 0);
+
+            delay(500);
+
+            digitalWrite(red, 0);
+            digitalWrite(green, 1);
+            digitalWrite(blue, 1);
+
+            delay(500);
+
+            digitalWrite(red, 0);
+            digitalWrite(green, 0);
+            digitalWrite(blue, 0);
+
+            delay(500);
+
+        }
+    }
 }
