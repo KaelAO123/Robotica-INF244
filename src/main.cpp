@@ -1,23 +1,40 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
-#include <SoftwareSerial.h>   // Incluimos la libreria SoftwareSerial
-SoftwareSerial Bluetooth(10,11);    // Definimos los pines RX=11 y TX=10 del Arduino conectados al Bluetooth
+// 20ml minimo, 1 segundo, maximo
+const byte pulsador = 2;
+const byte pulsador2 = 3;
+const byte leds[] = {5, 6, 7, 8, 9, 10};
+long tiempo = 0;
 void setup()
 {
-  Bluetooth.begin(38400);       // Fijamos la velocidad de comunicacion del arduino con el Bluetooth 
-  Serial.begin(9600);   // Fijamos la velocidad de comunicacion de el arduido con la PC
+    
+    for(byte led: leds){
+        pinMode(led,OUTPUT);
+    }
 
-  Serial.println("Innovadores");
+    pinMode(pulsador, INPUT);
+    pinMode(pulsador2, INPUT);
+
+    attachInterrupt(digitalPinToInterrupt(pulsador), aumento, RISING);
+    attachInterrupt(digitalPinToInterrupt(pulsador2), disminucion, FALLING);
+
 }
- 
+
 void loop()
-{ 
-  if(Bluetooth.available())    // Si llega un dato por el puerto Bluetooth se imprime en el monitor serial
-  {
-    Serial.write(Bluetooth.read());
-  }
-  if(Serial.available())  // Si se escribe y envia un dato por el monitor serial, se le manda al Bluetooth 
-  {
-     Bluetooth.write(Serial.read());
-  }
+{
+    delay(2000);
+}
+
+void aumento()
+{
+    if (millis() > (tiempo + 20))
+    {
+        estado = !estado;
+        digitalWrite(led, estado);
+        Serial.println("Cabmio de estado: " + String(estado));
+    }
+    tiempo = millis();
+}
+void disminucion(){
+
 }
